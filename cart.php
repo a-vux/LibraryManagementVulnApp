@@ -35,7 +35,7 @@ if ($cart_id) {
           <input class="form-check-input me-3 item-checkbox" type="checkbox" checked>
           <img src="<?= htmlspecialchars($item['cover_image']) ?>" alt="<?= htmlspecialchars($item['title']) ?>" style="width: 80px; height: auto; margin-right: 15px;">
           <div class="flex-grow-1">
-            <div><strong style="font-weight: 700"><?= htmlspecialchars($item['title']) ?></strong></div>
+            <div><strong class="book-title" style="font-weight: 700"><?= htmlspecialchars($item['title']) ?></strong></div>
             <div>Price: $<?= number_format($item['price'], 2, ',', '.') ?></div>
           </div>
           <div class="d-flex align-items-center mx-3">
@@ -63,6 +63,9 @@ if ($cart_id) {
           <strong id="total-price" class="text-danger">$0</strong>
         </div>
         <button id="checkout-btn" class="btn btn-primary mt-3 w-100">Checkout</button>
+        <form id="checkout-form" method="post" action="index.php?page=checkout.php" class="d-none">
+          <input type="hidden" name="items" id="checkout-items-json" />
+        </form>
       </div>
     </div>
   </div>
@@ -75,9 +78,7 @@ function updateCartCount() {
   document.getElementById('select-all-label').textContent = `Select All (${count} items)`;
 
 }
-
 document.addEventListener('DOMContentLoaded', function () {
-
   function updateTotal() {
     let total = 0;
     document.querySelectorAll('.cart-item').forEach(item => {
@@ -88,13 +89,11 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     document.getElementById('total-price').textContent = '$' + total.toLocaleString('en-US');
   }
-
   function updateItemTotal(item) {
     const quantity = parseInt(item.querySelector('.quantity-input').value);
     const price = parseFloat(item.dataset.price);
     item.querySelector('.item-total').textContent = '$' + (price * quantity).toLocaleString('en-US');
   }
-
   // Tăng số lượng
   document.querySelectorAll('.btn-increase').forEach(btn => {
     btn.addEventListener('click', function () {
@@ -119,7 +118,6 @@ document.addEventListener('DOMContentLoaded', function () {
       .catch(err => console.error('Error:', err));
     });
   });
-
   // Giảm số lượng
   document.querySelectorAll('.btn-decrease').forEach(btn => {
     btn.addEventListener('click', function () {
@@ -147,7 +145,6 @@ document.addEventListener('DOMContentLoaded', function () {
       .catch(err => console.error('Error:', err));
     });
   });
-
   // Xoá item
   document.querySelectorAll('.btn-delete').forEach(btn => {
     btn.addEventListener('click', function () {
@@ -171,20 +168,43 @@ document.addEventListener('DOMContentLoaded', function () {
       .catch(err => console.error('Error:', err));
     });
   });
-
   // Chọn/Bỏ từng item
   document.querySelectorAll('.item-checkbox').forEach(cb =>
     cb.addEventListener('change', updateTotal)
   );
-
   // Chọn tất cả
   document.getElementById('select-all').addEventListener('change', function () {
     const checked = this.checked;
     document.querySelectorAll('.item-checkbox').forEach(cb => cb.checked = checked);
     updateTotal();
   }); 
-
   // Khởi tạo tổng tiền ban đầu
   updateTotal();
+
+  // Checkout
+  document.getElementById('checkout-btn').addEventListener('click', function () {
+  const selectedItems = [];
+
+  document.querySelectorAll('.cart-item').forEach(item => {
+    const checkbox = item.querySelector('.item-checkbox');
+    if (checkbox.checked) {
+      selectedItems.push({
+        title: item.querySelector('.book-title').textContent.trim(),
+        price: parseFloat(item.dataset.price),
+        quantity: parseInt(item.querySelector('.quantity-input').value),
+        cover_image: item.querySelector('img').getAttribute('src')
+      });
+    }
+  });
+
+  if (selectedItems.length === 0) {
+    alert("Please select at least one item to checkout.");
+    return;
+  }
+
+  document.getElementById('checkout-items-json').value = JSON.stringify(selectedItems);
+  document.getElementById('checkout-form').submit();
+});
+
 });
 </script>
