@@ -27,7 +27,7 @@ if ($cart_id) {
     <div class="col-md-8">
       <div class="form-check mb-3">
         <input class="form-check-input" type="checkbox" id="select-all">
-        <label class="form-check-label" for="select-all">Select All (<?= count($cart_items) ?> items)</label>
+        <label id="select-all-label" class="form-check-label" for="select-all">Select All (<?= count($cart_items) ?> items)</label>
       </div>
       <?php foreach ($cart_items as $item): ?>
       <div class="card mb-3 cart-item" data-item-id="<?= $item['cart_item_id'] ?>" data-price="<?= $item['price'] ?>">
@@ -72,6 +72,8 @@ if ($cart_id) {
 function updateCartCount() {
   const count = document.querySelectorAll('.cart-item').length;
   document.getElementById('cart-count').textContent = count;
+  document.getElementById('select-all-label').textContent = `Select All (${count} items)`;
+
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -110,6 +112,8 @@ document.addEventListener('DOMContentLoaded', function () {
           input.value = parseInt(input.value) + 1;
           updateItemTotal(item);
           updateTotal();
+          updateHeaderCartCount();
+          updateCartDropdown();
         }
       })
       .catch(err => console.error('Error:', err));
@@ -136,6 +140,8 @@ document.addEventListener('DOMContentLoaded', function () {
           input.value = currentQty - 1;
           updateItemTotal(item);
           updateTotal();
+          updateHeaderCartCount();
+          updateCartDropdown();
         }
       })
       .catch(err => console.error('Error:', err));
@@ -158,9 +164,8 @@ document.addEventListener('DOMContentLoaded', function () {
           item.remove(); // xoá phần tử khỏi UI
           updateTotal();
           updateCartCount();
-          if (count === 0) {
-            document.querySelector('.row').innerHTML = '<p>Your cart is empty.</p>';
-            }
+          updateHeaderCartCount();
+          updateCartDropdown();
         }
       })
       .catch(err => console.error('Error:', err));
