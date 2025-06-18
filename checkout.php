@@ -1,6 +1,7 @@
 <?php
 $email = isset($_SESSION['user']['email']) ? $_SESSION['user']['email'] : '';
 $items = isset($_POST['items']) ? json_decode($_POST['items'], true) : [];
+print_r($items); // Debugging line to check items structure
 $shipping_cost = 10; // Hardcoded shipping fee
 $subtotal = 0;
 
@@ -87,6 +88,7 @@ $total = $subtotal + $shipping_cost;
 
         <!-- Hidden items -->
         <?php foreach ($items as $index => $item): ?>
+					<input type="hidden" name="items[<?= $index ?>][book_id]" value="<?= $item['book_id'] ?>" />
           <input type="hidden" name="items[<?= $index ?>][title]" value="<?= htmlspecialchars($item['title']) ?>" />
           <input type="hidden" name="items[<?= $index ?>][price]" value="<?= $item['price'] ?>" />
           <input type="hidden" name="items[<?= $index ?>][quantity]" value="<?= $item['quantity'] ?>" />

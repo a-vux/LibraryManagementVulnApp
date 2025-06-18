@@ -46,7 +46,15 @@ include 'includes/footer.php';
 <?php if (isset($_GET['deleted'])): ?>
 <div id="toast" class="toast show">
   <div class="toast-content">
-    <span>✅ Delete successfully</span>
+    <span>✅ Delete successfully!</span>
+    <button onclick="closeToast()" class="close-btn">&times;</button>
+  </div>
+</div>
+<?php endif; ?>
+<?php if (isset($_GET['ordered'])): ?>
+<div id="toast" class="toast show">
+  <div class="toast-content">
+    <span>✅ Order placed successfully!</span>
     <button onclick="closeToast()" class="close-btn">&times;</button>
   </div>
 </div>

@@ -13,7 +13,7 @@ $cart_id = $stmt->fetchColumn();
 
 $cart_items = [];
 if ($cart_id) {
-  $stmt = $pdo->prepare("SELECT ci.id AS cart_item_id, b.title, b.cover_image, b.price, ci.quantity FROM cart_items ci
+  $stmt = $pdo->prepare("SELECT ci.id AS cart_item_id, b.id AS book_id, b.title, b.cover_image, b.price, ci.quantity FROM cart_items ci
     JOIN books b ON ci.book_id = b.id WHERE ci.cart_id = ?");
   $stmt->execute([$cart_id]);
   $cart_items = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -30,7 +30,10 @@ if ($cart_id) {
         <label id="select-all-label" class="form-check-label" for="select-all">Select All (<?= count($cart_items) ?> items)</label>
       </div>
       <?php foreach ($cart_items as $item): ?>
-      <div class="card mb-3 cart-item" data-item-id="<?= $item['cart_item_id'] ?>" data-price="<?= $item['price'] ?>">
+      <div class="card mb-3 cart-item" 
+          data-item-id="<?= $item['cart_item_id'] ?>" 
+          data-price="<?= $item['price'] ?>" 
+          data-book-id="<?= $item['book_id']?>">
         <div class="card-body d-flex align-items-center">
           <input class="form-check-input me-3 item-checkbox" type="checkbox" checked>
           <img src="<?= htmlspecialchars($item['cover_image']) ?>" alt="<?= htmlspecialchars($item['title']) ?>" style="width: 80px; height: auto; margin-right: 15px;">
@@ -122,6 +125,7 @@ document.addEventListener('DOMContentLoaded', function () {
   document.querySelectorAll('.btn-decrease').forEach(btn => {
     btn.addEventListener('click', function () {
       const itemId = this.dataset.id;
+      const bookId = this.closest('.cart-item').dataset.bookId;
       const item = this.closest('.cart-item');
       const input = item.querySelector('.quantity-input');
       const currentQty = parseInt(input.value);
@@ -189,6 +193,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const checkbox = item.querySelector('.item-checkbox');
     if (checkbox.checked) {
       selectedItems.push({
+        item_id: item.dataset.itemId,
+        book_id: item.dataset.bookId,
         title: item.querySelector('.book-title').textContent.trim(),
         price: parseFloat(item.dataset.price),
         quantity: parseInt(item.querySelector('.quantity-input').value),
