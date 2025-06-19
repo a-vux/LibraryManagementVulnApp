@@ -1,7 +1,7 @@
 <?php
 $email = isset($_SESSION['user']['email']) ? $_SESSION['user']['email'] : '';
 $items = isset($_POST['items']) ? json_decode($_POST['items'], true) : [];
-print_r($items); // Debugging line to check items structure
+// print_r($items); // Debugging line to check items structure
 $shipping_cost = 10; // Hardcoded shipping fee
 $subtotal = 0;
 
@@ -70,19 +70,19 @@ $total = $subtotal + $shipping_cost;
 
         <h5 class="mt-4 fw-bold">Payment Method</h5>
         <div class="form-check">
-          <input class="form-check-input" type="radio" name="payment" value="vnpay" id="vnpay" required />
+          <input class="form-check-input" type="radio" name="payment" value="VnPay" id="vnpay" required />
           <label class="form-check-label" for="vnpay">VnPay (Visa/ATM card)</label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="radio" name="payment" value="bank" id="bank" />
+          <input class="form-check-input" type="radio" name="payment" value="Bank Transfer" id="bank" />
           <label class="form-check-label" for="bank">Bank Transfer</label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="radio" name="payment" value="cod" id="cod" />
+          <input class="form-check-input" type="radio" name="payment" value="Cash on Delivery" id="cod" />
           <label class="form-check-label" for="cod">Cash on Delivery (COD)</label>
         </div>
         <div class="form-check mb-4">
-          <input class="form-check-input" type="radio" name="payment" value="pickup" id="pickup" />
+          <input class="form-check-input" type="radio" name="payment" value="Pick-up at Store" id="pickup" />
           <label class="form-check-label" for="pickup">Pick-up at store</label>
         </div>
 
