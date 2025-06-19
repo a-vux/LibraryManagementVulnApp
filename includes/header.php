@@ -226,30 +226,39 @@
             </div>
             <div class="offcanvas-body">
               <!-- 3 cai nut -->
+              <?php
+                $page = isset($_GET['page']) ? basename($_GET['page'], '.php') : 'home';
+                $is_admin = $_SESSION['user']['is_admin'] ?? false;
+              ?>
               <ul id="navbar"
                 class="navbar-nav text-uppercase justify-content-start justify-content-lg-center align-items-start align-items-lg-center flex-grow-1">
-                <?php
-                $page = isset($_GET['page']) ? basename($_GET['page'], '.php') : 'home';
-                ?>
-                <li class="nav-item">
-                  <a class="nav-link me-4 <?php echo $page === 'home' ? 'active' : ''; ?>" href="index.php?page=home.php">Home</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link me-4 <?php echo $page === 'about' ? 'active' : ''; ?>" href="index.php?page=about.php">About</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link me-4 <?php echo $page === 'contact' ? 'active' : ''; ?>" href="index.php?page=contact.php">Contact</a>
-                </li>
+                <?php if ($is_admin): ?>
+                  <li class="nav-item">
+                    <a class="nav-link me-4 <?= $page === 'dashboard' ? 'active' : '' ?>" href="index.php?page=dashboard.php">Dashboard</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link me-4 <?= $page === 'user_management' ? 'active' : '' ?>" href="index.php?page=user_management.php">User Management</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link me-4 <?= $page === 'book_management' ? 'active' : '' ?>" href="index.php?page=book_management.php">Book Management</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link me-4 <?= $page === 'order_management' ? 'active' : '' ?>" href="index.php?page=order_management.php">Order Management</a>
+                  </li>
+                <?php else: ?>
+                  <li class="nav-item">
+                    <a class="nav-link me-4 <?= $page === 'home' ? 'active' : '' ?>" href="index.php?page=home.php">Home</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link me-4 <?= $page === 'about' ? 'active' : '' ?>" href="index.php?page=about.php">About</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link me-4 <?= $page === 'contact' ? 'active' : '' ?>" href="index.php?page=contact.php">Contact</a>
+                  </li>
+                <?php endif; ?>
               </ul>
               <div class="user-items d-flex">
                 <ul class="d-flex justify-content-end list-unstyled mb-0">
-                  <li class="search-item pe-3">
-                    <a href="#" class="search-button">
-                      <svg class="search">
-                        <use xlink:href="#search"></use>
-                      </svg>
-                    </a>
-                  </li>
                   <!-- Phan profile -->
                   <?php if (isset($_SESSION['user'])): ?>
                     <li class="pe-3">
@@ -282,7 +291,8 @@
                         $stmt->execute([$user_id]);
                         $cart_items = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     }
-                    ?>
+                  ?>
+                  <?php if (!$is_admin): ?>
                   <li class="cart-dropdown dropdown">
                     <a href="cart.php" class="dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false">
                       <svg class="cart">
@@ -327,6 +337,7 @@
                       <?php endif; ?>
                     </div>
                   </li>
+                  <?php endif; ?>
                 </ul>
               </div>
             </div>
