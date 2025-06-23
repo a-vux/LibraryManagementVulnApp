@@ -22,15 +22,6 @@ $total = $_POST['total'] ?? 0;
 $items = $_POST['items'] ?? [];
 
 $full_address = "$address, $ward, $district, $province";
-// echo "Processing order for user ID: $user_id<br>";
-// echo "Shipping method: $shipping_method<br>";
-// echo "Shipping fee: $shipping_fee<br>";
-// echo "Payment method: $payment_method<br>";
-// echo "Total amount: $total<br>";
-// echo "Full address: $full_address<br>";
-// echo "Name: $name<br>";
-// echo "Phone: $phone<br>";
-// echo "Items: " . print_r($items, true) . "<br>";
 try {
     $pdo->beginTransaction();
 

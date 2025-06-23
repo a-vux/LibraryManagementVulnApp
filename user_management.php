@@ -1,5 +1,4 @@
 <?php
-// Bảo vệ nếu không phải admin
 if (!isset($_SESSION['user']) || !$_SESSION['user']['is_admin']) {
   header("Location: index.php?page=home.php");
   exit();
