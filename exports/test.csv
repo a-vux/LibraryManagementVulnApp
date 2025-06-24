@@ -1,0 +1,19 @@
+ID,Title,Author,Category,Price,"Cover Image"
+18,"abc shell","abc test",Business,10.00,assets/images/simple_shell.php
+17,"abc test","abc test",Business,10.00,assets/images/random.jpeg
+15,"All The Letters I Should Have Sent","Rania Naim",Romance,23.00,assets/images/product-item11.png
+14,"All The Letters I Should Have Sent","Rania Naim",Romance,23.00,assets/images/product-item11.png
+13,"All The Letters I Should Have Sent","Rania Naim",Romance,23.00,assets/images/product-item11.png
+12,"All The Letters I Should Have Sent","Rania Naim",Romance,23.00,assets/images/product-item11.png
+4,"Clean Code","Robert C. Martin",Technology,25.00,assets/images/cleancode.jpg
+8,"Company of One","Paul Jarvis",Business,16.75,assets/images/company_of_one.jpg
+1,Dune,"Frank Herbert","Science Fiction",12.99,assets/images/dune.jpg
+2,"Harry Potter and the Sorcerer's Stone","J.K. Rowling",Fantasy,9.99,assets/images/hp1.jpg
+10,"How Innovation Works","Matt Ridley",Business,20.00,assets/images/how_innovation_works.jpg
+3,"Pride and Prejudice","Jane Austen",Romance,7.49,assets/images/pride.jpg
+16,shell,hacker,Business,23.00,assets/images/simple_shell.php
+7,"The Diary of a Young Girl","Anne Frank",Memoir,12.00,assets/images/the_diary_of_a_young_girl.jpg
+9,"The Fine Print","Lauren Asher",Romance,13.99,assets/images/the_fine_print.jpg
+5,"The Psychology of Money","Morgan Housel","Personal Finance",18.99,assets/images/the_psychology_of_money.jpg
+6,"The Two Towers","J.R.R. Tolkien",Fantasy,14.50,assets/images/the_two_towers.jpg
+11,"Your Heart Is The Sea","Catalog Thought and Nikita Gill",Romance,15.00,assets/images/your_heart_is_the_sea.jpg

@@ -40,7 +40,8 @@ $books = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <div class="container mt-5">
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h3 class="fw-bold">Book Lists</h3>
-    <a href="#" class="btn btn-primary">Add New Book</a> 
+    <a href="#" class="btn btn-primary">Add New Book</a>
+    <a href="#" class="btn btn-outline-success" id="exportBtn">Export Book</a>
   </div>
 
   <div class="table-responsive">
@@ -101,6 +102,21 @@ $books = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <div class="modal-buttons">
       <button type="button" id="confirmDeleteBookBtn" class="btn btn-danger">Yes</button>
       <button type="button" class="btn btn-secondary" onclick="closeDeleteBookModal()">No</button>
+    </div>
+  </div>
+</div>
+
+<!-- Export Modal -->
+<div id="exportBookModal" class="modal-overlay">
+  <div class="modal-content position-relative">
+    <button class="close-modal" onclick="closeExportBookModal()">&times;</button>
+    <h5 class="mb-3 fw-bold">Export Book List</h5>
+    <div class="mb-3">
+      <input type="text" id="exportFilename" class="form-control" placeholder="Enter file name (e.g., books.csv)">
+    </div>
+    <div class="modal-buttons">
+      <button type="button" class="btn btn-success" id="confirmExportBtn">Export</button>
+      <button type="button" class="btn btn-secondary" onclick="closeExportBookModal()">Cancel</button>
     </div>
   </div>
 </div>
@@ -236,4 +252,49 @@ function showToast(message, type = 'success') {
 function closeToast() {
   document.getElementById('toast-container').style.display = 'none';
 }
+
+// Gắn sự kiện cho nút Export Book
+document.getElementById('exportBtn').addEventListener('click', function () {
+  document.getElementById('exportFilename').value = '';
+  openExportBookModal();
+});
+
+document.getElementById('confirmExportBtn').addEventListener('click', function () {
+  const filename = document.getElementById('exportFilename').value.trim();
+  if (!filename) {
+    showToast('Please enter a file name.', 'error');
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append('filename', filename);
+
+  fetch('manual_export.php', {
+    method: 'POST',
+    body: formData
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      showToast('Export successful.');
+      window.open(data.download_link, '_blank');
+    } else {
+      showToast(data.message, 'error');
+    }
+    closeExportBookModal();
+  })
+  .catch(() => {
+    showToast('Error exporting book.', 'error');
+    closeExportBookModal();
+  });
+});
+
+function openExportBookModal() {
+  document.getElementById('exportBookModal').style.display = 'flex';
+}
+
+function closeExportBookModal() {
+  document.getElementById('exportBookModal').style.display = 'none';
+}
+
 </script>
